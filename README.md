@@ -1,6 +1,6 @@
 # NeMo Data Designer – Synthetic Data Generator
 
-[![Docker](https://img.shields.io/badge/Docker-Ready-blue)](https://www.docker.com/) [![Python](https://img.shields.io/badge/Python-3.9+-yellow)](https://www.python.org/) [![Streamlit](https://img.shields.io/badge/Streamlit-UI-red)](https://streamlit.io/)
+[![Docker](https://img.shields.io/badge/Docker-blue)](https://www.docker.com/) [![Python](https://img.shields.io/badge/Python-3.9+-yellow)](https://www.python.org/) [![Streamlit](https://img.shields.io/badge/Streamlit-UI-red)](https://streamlit.io/)
 
 A **Dockerized FastAPI backend** + **Streamlit frontend** app for designing schemas and generating synthetic data using **NVIDIA NeMo Data Designer**.
 
