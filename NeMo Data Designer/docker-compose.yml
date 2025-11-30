@@ -1,0 +1,33 @@
+
+services:
+  backend:
+    build: ./backend2
+    env_file: .env
+    ports:
+      - "9001:9000"
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://localhost:9000/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+    networks:
+      - nemo-net
+
+  frontend:
+    build: ./frontend2
+    environment:
+      NEMO_BACKEND_URL: http://backend:9000
+    ports:
+      - "8501:8501"
+    depends_on:
+      backend:
+        condition: service_healthy
+    restart: always
+    networks:
+      - nemo-net
+
+networks:
+  nemo-net:
+    driver: bridge
