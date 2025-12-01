@@ -4,7 +4,7 @@
 from dotenv import load_dotenv
 from pathlib import Path
 
-# Load .env from parent folder (exactly as requested)
+# Load .env from parent folder
 env_path = Path(__file__).resolve().parent.parent / ".env"
 load_dotenv(dotenv_path=env_path)
 
@@ -28,13 +28,13 @@ app = FastAPI(title="NeMo Data Designer Backend", version="1.0")
 # CORS for local dev: Streamlit frontend -> FastAPI backend
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # adjust in production
+    allow_origins=["*"],  
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# --- Client initialization (same base_url & header style) ---
+# --- Client initialization  ---
 API_KEY = os.getenv("NEMO_DD_API_KEY")
 client = NeMoDataDesignerClient(
     base_url="https://ai.api.nvidia.com/v1/nemo/dd",
@@ -72,14 +72,14 @@ def health():
         "api_key_present": bool(API_KEY),
     }
 
-# --- Templates (same deep copy semantics) ---
+# --- Templates --
 @app.get("/templates/{use_case_key}")
 def get_template(use_case_key: str):
     if use_case_key not in {"ecommerce", "healthcare"}:
         raise HTTPException(status_code=400, detail="Invalid use_case_key")
     return deep_copy_template(use_case_key)
 
-# --- Validation (unchanged rules) ---
+# --- Validation  ---
 @app.post("/validate")
 def validate(req: ValidateRequest):
     cfg_dicts = [c.dict() for c in req.columns]
@@ -87,8 +87,7 @@ def validate(req: ValidateRequest):
     subcat_errs = validate_subcat_mapping(cfg_dicts)
     return {"valid": valid and not subcat_errs, "errors": errs + subcat_errs}
 
-# --- RAW Preview (no sanitization, no derivations) ---
-# Frontend will apply sanitizers & derivations exactly as in original file.
+# --- RAW Preview  ---
 @app.post("/preview_raw")
 def preview_raw(req: PreviewRequest):
     if not API_KEY:
@@ -103,5 +102,5 @@ def preview_raw(req: PreviewRequest):
     cb = build_config(cfg_dicts, req.model_alias)
     preview = client.preview(cb, num_records=req.num_records)
     df = preview.dataset
-    # Return raw records; frontend will do the exact same processing as original
+    # Return raw records
     return {"rows": len(df), "records": df.to_dict(orient="records")}
