@@ -15,7 +15,7 @@ from nemo_microservices.data_designer.essentials import (
 )
 
 # -----------------------------
-# Templates (IDENTICAL)
+# Templates 
 # -----------------------------
 def ecommerce_template() -> List[Dict[str, Any]]:
     return [
@@ -121,9 +121,7 @@ def healthcare_template() -> List[Dict[str, Any]]:
     ]
 
 
-# -----------------------------
-# Deep copy
-# -----------------------------
+
 def deep_copy_template(use_case_key: str) -> List[Dict[str, Any]]:
     tpl = ecommerce_template() if use_case_key == "ecommerce" else healthcare_template()
     return json.loads(json.dumps(tpl))  # deep copy
