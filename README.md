@@ -76,12 +76,6 @@ Access:
 
 ---
 
-##  Development Notes
-- Do **NOT** commit `.env` or secrets
-- Generated datasets → `outputs/` (ignored by Git)
-- Ports: Backend `9001`, Frontend `8501`
-
----
 
 ## 📦 Requirements
 **Backend**:
